@@ -1,0 +1,155 @@
+position_id	position_title	department_id	Level
+1	Researcher	2	IC1
+2	Senior Researcher	2	IC2
+3	Principal Researcher	2	IC3
+4	Project Manager	2	IC1
+5	Senior Project Manager	2	IC2
+6	Principal Project Manager	2	IC3
+7	Research Associate	2	IC1
+8	Senior Research Associate	2	IC2
+9	Data Scientist	2	IC1
+10	Senior Data Scientist	2	IC2
+11	Principal Data Scientist	2	IC3
+12	Technical Writer	2	IC1
+13	Senior Technical Writer	2	IC2
+14	Principal Technical Writer	2	IC3
+15	UX Researcher	2	IC1
+16	Senior UX Researcher	2	IC2
+17	Principal UX Researcher	2	IC3
+18	Prototype Engineer	2	IC1
+19	Senior Prototype Engineer	2	IC2
+20	Principal Prototype Engineer	2	IC3
+21	Research Manager	2	M1
+22	Senior Research Manager	2	M2
+23	Research Director	2	M3
+24	Vice President of Research	2	M4
+25	Software Engineer	7	IC1
+26	Senior Software Engineer	7	IC2
+27	Principal Software Engineer	7	IC3
+28	Engineering Manager	7	M1
+29	Senior Engineering Manager	7	M2
+30	Engineering Director	7	M3
+31	Senior Vice President of Engineering	7	M4
+32	Technical Writer	7	IC1
+33	Senior Technical Writer	7	IC2
+34	Principal Technical Writer	7	IC3
+35	Architect	7	IC1
+36	Senior Architect	7	IC2
+37	Principal Architect	7	IC3
+38	Chief Financial Officer	9	M4
+39	Accountant	9	IC1
+40	Senior Accountant	9	IC2
+41	Staff Accountant	9	IC3
+42	Payroll Specialist	9	IC1
+43	Senior Payroll Specialist	9	IC2
+44	Financial Analyst	9	IC1
+45	Senior Financial Analyst	9	IC2
+46	Principal Financial Analyst	9	IC3
+47	Accounting Manager	9	M1
+48	Senior Accounting Manager	9	M2
+49	Human Resources Generalist	6	IC1
+50	Senior Human Resources Generalist	6	IC2
+51	Principal Human Resources Generatlist	6	IC3
+52	Human Resources Manager	6	M1
+53	Senior Human Resources Manager	6	M2
+54	Human Resources Director	6	M3
+55	Oranizational Development Specialist	6	IC1
+56	Senior Oranizational Development Specialist	6	IC2
+57	Principal Oranizational Development Specialist	6	IC3
+58	Vice President of Human Resources	6	M4
+59	Content Manager	5	IC1
+60	Senior Content Manager	5	IC2
+61	Principal Content Manager	5	IC3
+62	Digital Marketing Specialist	5	IC1
+63	Senior Digital Marketing Specialist	5	IC2
+64	Principal Digital Marketing Specialist	5	IC3
+65	Market Researcher	5	IC1
+66	Senior Market Researcher	5	IC2
+67	Principal Market Researcher	5	IC3
+68	Public Relations Specialist	5	IC1
+69	Senior Public Relations Specialist	5	IC2
+70	Principal Pubic Relations Specialist	5	IC3
+71	Creative Director	5	IC1
+72	Senior Creative Director	5	IC2
+73	Principal Creaive Director	5	IC3
+74	Graphic Designer	5	IC1
+75	Senior Graphic Designer	5	IC2
+76	Principal Grapnic Designer	5	IC3
+77	Campaign Manager	5	IC1
+78	Senior Campaign Manager	5	IC2
+79	Principal Campaign Manager	5	IC3
+80	Marketing Manager	5	M1
+81	Senior Marketing Manager	5	M2
+82	Marketing Director	5	M3
+83	Vice president of marketing	5	M4
+84	Account Executive	3	IC1
+85	Senior Account Executive	3	IC2
+86	Principal Account Executive	3	IC3
+87	Sales Manager	3	M1
+88	Business Development Manager	3	IC1
+89	Senior Business Development Manager	3	IC2
+90	Key Account Manager	3	IC3
+91	Sales Analyst	3	IC1
+92	Senior Sales Analyst	3	IC2
+93	Principal Sales Analyst	3	IC3
+94	Sales Operations Manager	3	IC1
+95	Senior Sales Operations Manager	3	IC2
+96	Senior Sales Manager	3	M2
+97	Sales Director	3	M3
+98	Vice President of Sales	3	M4
+99	Director of Support	4	M3
+100	Support Manager	4	M2
+101	Support Team Lean	4	M1
+102	Technical Support Specialist	4	IC1
+103	Senior Technical Support Specialist	4	IC2
+104	Principal Technical Support Specialist	4	IC3
+105	Support Analyst	4	IC1
+106	Senior Support Analyst	4	IC2
+107	Principal Support Analyst	4	IC3
+108	Technical Instructor	8	IC1
+109	Senior Technical Instructor	8	IC2
+110	Principal Technical Instructor	8	IC3
+111	Traning Manager	8	M1
+112	Director of Training	8	M2
+113	Instructional Designer	8	IC1
+114	Senior Instructional Designer	8	IC2
+115	Principal Instructional Designer	8	IC3
+116	Associate Product Manager	10	IC1
+117	Product Manager	10	IC2
+118	Senior Product Manager	10	IC3
+119	Principal Product Manager	10	IC4
+120	Director of Product Management	10	M1
+121	Senior Director of Product Management	10	M2
+122	Vice President of Product Mangement	10	M3
+123	Consultant	11	IC1
+124	Senior Consultant	11	IC2
+125	Principal Consultant	11	IC3
+126	Manager of Professional Services	11	M1
+127	Senior Manger of professional Services	11	M2
+128	Director of Professional Services	11	M3
+129	Chief Executive Officer	1	M5
+130	Executive Assistant	1	IC1
+131	Chief of Staff	1	M3
+132	Network Administrator	12	IC1
+133	Senior Network Administrator	12	IC2
+134	Principal Network Administrator	12	IC3
+135	Database Administrator	12	IC1
+136	Senior Database Administrator	12	IC2
+137	Principal Database Administrator	12	IC3
+138	Security Specialist	12	IC1
+139	Senior Security Specialist	12	IC2
+140	Principal Security Specialist	12	IC3
+141	Help Desk Technition	12	IC1
+142	Senior Help Desk Technition	12	IC2
+143	Architect	12	IC1
+144	Senior Architect	12	IC2
+145	Principal Architect	12	IC3
+146	IT Manager	12	M1
+147	IT Director	12	M2
+148	Corporate Attorney	13	IC1
+149	Senior Corporate Attorney	13	IC2
+150	Principal Corporate Attorney	13	IC3
+151	Paralegal	13	IC1
+152	Senior Paralegal	13	IC2
+153	General Counsel	13	M4
+154	Legal Manager	13	M1

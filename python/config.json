@@ -1,0 +1,9 @@
+{
+    "server": "svc-3d3479d4-4714-4af5-87ce-44b17926f43a-dml.aws-virginia-5.svc.singlestore.com",
+    "port":"3306",
+    "database": "hr",
+    "username": "admin",
+    "password": "goSinglestore1"   
+}
+
+    
