@@ -1,5 +1,5 @@
 from singlestore import s2_config, singlestore
-from populate_hr import accendair_db
+from populate_hr import ascentair_db
 import singlestoredb
 from datetime import datetime
 import concurrent.futures
@@ -10,7 +10,7 @@ class user_management:
         pass
     
     def add_users(self):
-        aca = accendair_db()
+        aca = ascentair_db()
         s2cnf = s2_config(aca.get_os())
         query_text = "select username from hr.employee;"
         s2 = singlestore(s2cnf)
@@ -23,7 +23,7 @@ class user_management:
 
             
     def delete_users(self):
-        aca = accendair_db()
+        aca = ascentair_db()
         s2cnf = s2_config(aca.get_os())
         query_text = "select USER FROM information_schema.USERS WHERE TYPE = 'NATIVE'"
         s2 = singlestore(s2cnf)
@@ -141,8 +141,8 @@ class user_management:
     
     
     def run_statement(self, statement, type):
-        aca = accendair_db()
-        aca = accendair_db()
+        aca = ascentair_db()
+        aca = ascentair_db()
         s2cnf = s2_config(aca.get_os())
         s2 = singlestore(s2cnf)
         if type == 'select':

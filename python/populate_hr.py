@@ -7,7 +7,7 @@ from singlestore import os
 import math
 
 
-class accendair_db:
+class ascentair_db:
     def __init__(self):
         self.executive_target = 5
         self.rnd_target = 131
@@ -412,7 +412,7 @@ class accendair_db:
         pass
     
 def main():
-    adb = accendair_db()
+    adb = ascentair_db()
     #adb.populate_emp_dep()
     #adb.populate_emp_pos()
     #adb.populate_ic_m1_man()
