@@ -13,23 +13,27 @@ class singlestore:
                                      password = s2_config.password,
                                      database = s2_config.database)
         
-    def run_sql(self, statement):
-        try:    
-            with self.conn.cursor() as cursor:
-                cursor.execute(statement)
-                self.conn.commit()
-        except:
-            pass
-       
-    def run_select(self, query):
+    def run_sql(self, statement, params=None):
+        with self.conn.cursor() as cursor:
+            cursor.execute(statement, params)
+            self.conn.commit()
+
+    def run_many(self, statement, params_list):
+        if not params_list:
+            return
+        with self.conn.cursor() as cursor:
+            cursor.executemany(statement, params_list)
+            self.conn.commit()
+
+    def run_select(self, query, params=None):
         return_values = []
         with self.conn.cursor() as cursor:
-            cursor.execute(query)
+            cursor.execute(query, params)
             results = cursor.fetchall()
             for row in results:
                 return_values.append(row)
         return return_values
-       
+
 
     def delete_records(self, session, table_name):
         statement_text = "delete from {0};".format(table_name)

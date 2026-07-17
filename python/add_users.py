@@ -1,27 +1,32 @@
 from singlestore import s2_config, singlestore
 from populate_hr import ascentair_db
-import singlestoredb
-from datetime import datetime
-import concurrent.futures
-import os
+import re
+import secrets
 
 class user_management:
+    USERNAME_RE = re.compile(r'^[A-Za-z0-9_]+$')
+
     def __init__(self):
         pass
-    
+
     def add_users(self):
         aca = ascentair_db()
         s2cnf = s2_config(aca.get_os())
         query_text = "select username from hr.employee;"
         s2 = singlestore(s2cnf)
         results = s2.run_select(query_text)
+        credentials = []
         for result in results:
             username = (result[0])
             username = self.clean_username(username)
-            sql_text = "create user {0} identified by 'goSinglestore1';".format(username)
-            s2.run_sql(sql_text)
+            password = secrets.token_urlsafe(12)
+            sql_text = "create user {0} identified by %s;".format(username)
+            s2.run_sql(sql_text, (password,))
+            credentials.append((username, password))
+        for username, password in credentials:
+            print("{0}: {1}".format(username, password))
 
-            
+
     def delete_users(self):
         aca = ascentair_db()
         s2cnf = s2_config(aca.get_os())
@@ -36,12 +41,12 @@ class user_management:
                 s2.run_sql(sql_text)
                 
     def add_employees_to_all(self):
-        results = self.run_statement("select username FROM hr.employee;")
+        results = self.run_statement("select username FROM hr.employee;", "select")
         for result in results:
             username = (result[0])
             username = self.clean_username(username)
             sql_text = "GRANT GROUP 'all' to {0};".format(username)
-            self.run_statement(sql_text)
+            self.run_statement(sql_text, "other")
             
     def create_manager_roles(self):
         query_text = "select e.username, e.employee_id as manager_id, p.level\
@@ -67,8 +72,8 @@ class user_management:
         u_ids = self.run_statement(query_text, "select")
         for u_id in u_ids:
             id = u_id[0]
-            query_text = "select username from employee where employee_id = {0};".format(id)
-            u_name = self.run_statement(query_text, "select")
+            query_text = "select username from employee where employee_id = %s;"
+            u_name = self.run_statement(query_text, "select", (id,))
             username = u_name[0][0]
             try:
                 username = self.clean_username(username)
@@ -83,7 +88,7 @@ class user_management:
             except:
                 print("exception")
                 
-    def test(self):
+    def assign_manager_access_roles(self):
         query_text = "select em.employee_id, em.manager_id, p.position_name, p.level, e.username \
                     from employee e, employee_manager em, employee_position ep, position p \
                     where em.manager_id = e.employee_id \
@@ -91,67 +96,42 @@ class user_management:
                     and ep.position_id = p.position_id \
                     and p.level = 'm5';"
         results = self.run_statement(query_text, "select")
-        direct_list = []
-        for result in results:
-            direct_list.append(result[0])
+        direct_list = [result[0] for result in results]
         role = "{0}_role".format(results[0][4])
-        update_text = "update employee_salary \
-                    set access_roles = concat(access_roles, '{0}', ',' ) \
-                    where employee_id in (".format(role)
-        for direct in direct_list:
-            update_text = "{0}{1},".format(update_text, direct)
-        update_text = update_text[:-1]
-        update_text = "{0});".format(update_text)
-        update_text = " ".join(update_text.split())
-        self.run_statement(update_text, "other")
-        self.test2(direct_list)
-        
-    def test2(self, direct_list):
+        self._grant_access_role_to_reports(role, direct_list)
+        self._cascade_access_roles(direct_list)
+
+    def _cascade_access_roles(self, direct_list):
         for direct in direct_list:
             query_text = "select em.employee_id, em.manager_id, e.username \
                     from employee e, employee_manager em, employee_position ep \
                     where em.manager_id = e.employee_id \
                     and e.employee_id = ep.employee_id \
-                    and manager_id = {0};".format(direct)
-            new_directs = []
-            results = self.run_statement(query_text, "select")
+                    and manager_id = %s;"
+            results = self.run_statement(query_text, "select", (direct,))
             if len(results) != 0:
                 role = "{0}_role".format(results[0][2])
-                update_text = "update employee_salary \
-                    set access_roles = concat(access_roles, '{0}', ',' ) \
-                    where employee_id in (".format(role)
-                for result in results:
-                    update_text = "{0}{1},".format(update_text, result[0])
-                    new_directs.append(result[0])
-                update_text = update_text[:-1]
-                update_text = "{0});".format(update_text)
-                update_text = " ".join(update_text.split())  
-                self.run_statement(update_text,"other")          
-                self.test2(new_directs)
-                
-    def test3(self, direct_list):
-        for direct in direct_list:
-            query_text = "select employee_id from employee_manager where manager_id = {0}".format(direct)
-            results = self.run_statement(query_text,"select")
-            new_direct_list = []
-            for result in results:
-                new_direct_list.append(result[0])
-            self.test3(new_direct_list)
-            
-    
-    
-    def run_statement(self, statement, type):
-        aca = ascentair_db()
+                new_directs = [result[0] for result in results]
+                self._grant_access_role_to_reports(role, new_directs)
+                self._cascade_access_roles(new_directs)
+
+    def _grant_access_role_to_reports(self, role, employee_ids):
+        placeholders = ",".join(["%s"] * len(employee_ids))
+        update_text = "update employee_salary set access_roles = concat(access_roles, %s, ',') " \
+                       "where employee_id in ({0});".format(placeholders)
+        params = [role] + employee_ids
+        self.run_statement(update_text, "other", params)
+
+    def run_statement(self, statement, type, params=None):
         aca = ascentair_db()
         s2cnf = s2_config(aca.get_os())
         s2 = singlestore(s2cnf)
         if type == 'select':
-            results = s2.run_select(statement)
+            results = s2.run_select(statement, params)
             return results
         elif type == 'other':
-            s2.run_sql(statement)
-            
-                
+            s2.run_sql(statement, params)
+
     def clean_username(self, username_in):
         username = username_in.strip()
         username = username.replace(" ","")
@@ -159,6 +139,8 @@ class user_management:
         username = username.replace("-","")
         username = username.replace(".","")
         username = username.replace("`","")
+        if not self.USERNAME_RE.match(username):
+            raise ValueError("Unsafe username after cleaning: {0!r}".format(username_in))
         return username
     
             
@@ -170,8 +152,7 @@ def main():
     #um.add_employees_to_all()
     #um.create_manager_roles()
     #um.add_managers_to_roles()
-    direct_list = []
-    direct_list.append(63)
-    um.test3(direct_list);        
+    #um.assign_manager_access_roles()
+
 if __name__ == '__main__':
     main()
